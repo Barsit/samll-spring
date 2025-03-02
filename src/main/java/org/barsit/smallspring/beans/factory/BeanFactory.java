@@ -1,5 +1,7 @@
 package org.barsit.smallspring.beans.factory;
 
+import org.barsit.smallspring.beans.BeansException;
+
 /**
  * @description:
  * @projectName:samll-spring
@@ -10,5 +12,7 @@ package org.barsit.smallspring.beans.factory;
  */
 public interface BeanFactory {
     public Object  getBean(String name);//f返回值？
+    Object getBean(String name, Object... args) throws BeansException;
+
 
 }
