@@ -20,7 +20,7 @@ public class CglibSubclassingInstantiationStrategy implements InstantiationStrat
                 return super.hashCode();
             }
         });
-//        构造器创建bean
+//      创建代理对象，也即bean对象
         return enhancer.create(ctor.getParameterTypes(),args);
     }
 
