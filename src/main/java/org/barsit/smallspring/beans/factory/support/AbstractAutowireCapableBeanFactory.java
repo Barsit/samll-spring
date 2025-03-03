@@ -17,28 +17,30 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     private InstantiationStrategy instantiationStrategy = new CglibSubclassingInstantiationStrategy();
     @Override
     protected Object createBean(String beanName, BeanDefinition beanDefinition, Object[] args) throws BeansException {
+//创建bean Instance
         Object bean = null;
         try {
-            bean = createBeanInstance(beanDefinition, beanName, args);
-        } catch (Exception e) {
-            throw new BeansException("Instantiation of bean failed", e);
+            bean =  createBeanInstance(beanDefinition,beanName,args);
+        }catch (Exception e){
+            throw new BeansException("Instance of bean failed",e);
         }
-
-        addSingleton(beanName, bean);
+//        加入单例
+        addSingleton(beanName,bean);
         return bean;
     }
 
     protected Object createBeanInstance(BeanDefinition beanDefinition, String beanName, Object[] args) {
-        Constructor constructorToUse = null;
-        Class<?> beanClass = beanDefinition.getBeanClass();
-        Constructor<?>[] declaredConstructors = beanClass.getDeclaredConstructors();
-        for (Constructor ctor : declaredConstructors) {
-            if (null != args && ctor.getParameterTypes().length == args.length) {
-                constructorToUse = ctor;
+//        匹配构造器
+        Constructor constructorUse = null;
+        Constructor[] constructors = beanDefinition.getBeanClass().getDeclaredConstructors();
+        for (Constructor constructor : constructors) {
+            if(constructor.getParameterTypes().length==args.length){
+                constructorUse = constructor;
                 break;
             }
         }
-        return getInstantiationStrategy().instantiate(beanDefinition, beanName, constructorToUse, args);
+//        创建bean
+        return getInstantiationStrategy().instantiate(beanDefinition,beanName,constructorUse,args);
     }
 
     public InstantiationStrategy getInstantiationStrategy() {

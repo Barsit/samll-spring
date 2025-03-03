@@ -8,18 +8,22 @@ import java.lang.reflect.InvocationTargetException;
 
 public class SimpleInstantiationStrategy implements InstantiationStrategy {
 
+//    通过反射创建bean对象
     @Override
     public Object instantiate(BeanDefinition beanDefinition, String beanName, Constructor ctor, Object[] args) throws BeansException {
-        Class clazz = beanDefinition.getBeanClass();
+//        获取bean信息
+        Class beanClass = beanDefinition.getBeanClass();
+//        判空
         try {
-            if (null != ctor) {
-                return clazz.getDeclaredConstructor(ctor.getParameterTypes()).newInstance(args);
+            if (ctor != null) {
+//                有参构造
+                return beanClass.getDeclaredConstructor(ctor.getParameterTypes()).newInstance();
             } else {
-                return clazz.getDeclaredConstructor().newInstance();
+//                无参构造
+                return beanClass.getDeclaredConstructor().newInstance();
             }
-        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            throw new BeansException("Failed to instantiate [" + clazz.getName() + "]", e);
+            } catch(InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e){
+                throw new BeansException("Failed to instantiate [" + beanName +"]",e);
+            }
         }
     }
-
-}

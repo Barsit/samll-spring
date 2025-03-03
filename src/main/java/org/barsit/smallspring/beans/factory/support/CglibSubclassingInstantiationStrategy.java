@@ -11,6 +11,7 @@ public class CglibSubclassingInstantiationStrategy implements InstantiationStrat
 
     @Override
     public Object instantiate(BeanDefinition beanDefinition, String beanName, Constructor ctor, Object[] args) throws BeansException {
+//        设置父类
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(beanDefinition.getBeanClass());
         enhancer.setCallback(new NoOp() {
@@ -19,8 +20,9 @@ public class CglibSubclassingInstantiationStrategy implements InstantiationStrat
                 return super.hashCode();
             }
         });
-        if (null == ctor) return enhancer.create();
-        return enhancer.create(ctor.getParameterTypes(), args);
+//        构造器创建bean
+        return enhancer.create(ctor.getParameterTypes(),args);
     }
+
 
 }

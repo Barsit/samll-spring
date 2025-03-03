@@ -11,8 +11,8 @@ import org.barsit.smallspring.beans.BeansException;
  * @version:1.0
  */
 public interface BeanFactory {
-    public Object  getBean(String name);//f返回值？
-    Object getBean(String name, Object... args) throws BeansException;
+    public Object  getBean(String name) throws BeansException;//f返回值？
+    public  Object getBean(String name, Object... args) throws BeansException;
 
 
 }
