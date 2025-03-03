@@ -30,6 +30,7 @@ class JDKProxy implements InvocationHandler{
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+//        invokde方法由jvm掉用
 //        猜测proxy来自 Proxy.newProxyInstance 创建的代理对象
 //        System.out.println(proxy);
         System.out.println(".........................................");
