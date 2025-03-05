@@ -21,6 +21,7 @@ public class CglibSubclassingInstantiationStrategy implements InstantiationStrat
             }
         });
 //      创建代理对象，也即bean对象
+        if (null == ctor) return enhancer.create();
         return enhancer.create(ctor.getParameterTypes(),args);
     }
 
