@@ -11,6 +11,9 @@ package org.barsit.smallspring.test.bean;
 public class UserService {
     private String name;
     private Integer age;
+    private String uid;
+
+    private UserDao userDao;
 
     public UserService() {
     }
@@ -20,7 +23,8 @@ public class UserService {
     }
 
     public void queryUserInfo() {
-        System.out.println("查询用户信息：" + name + "age is: " + age.toString()) ;
+        System.out.println("查询用户信息：" + userDao.queryUserName(uid)) ;
+//        System.out.println(name);
     }
 
     @Override
@@ -41,5 +45,13 @@ public class UserService {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
     }
 }

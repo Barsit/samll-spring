@@ -1,4 +1,6 @@
-package org.barsit.smallspring.beans.factory.factory;
+package org.barsit.smallspring.beans.factory.support;
+
+import org.barsit.smallspring.beans.factory.factory.SingletonBeanRegistry;
 
 import java.util.HashMap;
 import java.util.Map;

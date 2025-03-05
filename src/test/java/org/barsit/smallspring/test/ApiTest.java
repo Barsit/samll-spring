@@ -2,8 +2,12 @@ package org.barsit.smallspring.test;
 
 
 import org.barsit.smallspring.beans.factory.BeanFactory;
+import org.barsit.smallspring.beans.factory.PropertyValue;
+import org.barsit.smallspring.beans.factory.PropertyValues;
 import org.barsit.smallspring.beans.factory.factory.BeanDefinition;
+import org.barsit.smallspring.beans.factory.factory.BeanReference;
 import org.barsit.smallspring.beans.factory.support.DefaultListableBeanFactory;
+import org.barsit.smallspring.test.bean.UserDao;
 import org.barsit.smallspring.test.bean.UserService;
 import org.junit.Test;
 
@@ -45,7 +49,7 @@ public class ApiTest {
 //    获取bean
 //        Java 反射中使用构造函数创建对象实例时，提供的参数必须与构造器的参数类型和顺序完全匹配
 //        UserService userService = (UserService) beanFactory.getBean("UserService",18,"小傅哥");
-        UserService userService = (UserService) beanFactory.getBean("UserService","小傅哥",18);
+        UserService userService = (UserService) beanFactory.getBean("UserService");
 
         userService.queryUserInfo();
     }
@@ -74,5 +78,24 @@ public class ApiTest {
     }
 //    4.4 Cglib 实例化
 //    https://www.runoob.com/w3cnote/cglibcode-generation-library-intro.html
+
+    @Test
+    public void test_BeanFactory3(){
+//         // 1.初始化 BeanFactory
+        DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+//         // 2. UserDao 注册
+        beanFactory.registerBeanDefinition("userDao",new BeanDefinition(UserDao.class));
+//        3. UserService
+        PropertyValues propertyValues = new PropertyValues();
+        propertyValues.addPropertyValue(new PropertyValue("uid","10001"));
+        propertyValues.addPropertyValue(new PropertyValue("userDao",new BeanReference("userDao")));
+        BeanDefinition beanDefinition = new BeanDefinition(UserService.class, propertyValues);
+        beanFactory.registerBeanDefinition("userService",beanDefinition);
+//        获取
+        UserService userService =(UserService) beanFactory.getBean("userService");
+        userService.queryUserInfo();
+
+
+    }
 
 }

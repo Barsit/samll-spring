@@ -3,7 +3,6 @@ package org.barsit.smallspring.beans.factory.support;
 import org.barsit.smallspring.beans.BeansException;
 import org.barsit.smallspring.beans.factory.BeanFactory;
 import org.barsit.smallspring.beans.factory.factory.BeanDefinition;
-import org.barsit.smallspring.beans.factory.factory.DefaultSingletonBeanRegistry;
 
 /**
  * @description:
