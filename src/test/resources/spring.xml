@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="CESU-8" ?>
+<beans>
+    <bean id="userDao" class = "org.barsit.smallspring.test.bean.UserDao"/>
+    <bean id = "userService" class="org.barsit.smallspring.test.bean.UserService">
+            <property name="uid" value="10001"/>
+            <property name="userDao" ref="userDao"/>
+    </bean>
+</beans>

@@ -3,7 +3,9 @@ package org.barsit.smallspring.beans.factory.support;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.XmlUtil;
 import org.barsit.smallspring.beans.BeansException;
+import org.barsit.smallspring.beans.factory.PropertyValue;
 import org.barsit.smallspring.beans.factory.factory.BeanDefinition;
+import org.barsit.smallspring.beans.factory.factory.BeanReference;
 import org.barsit.smallspring.core.io.DefaultResourceLoader;
 import org.barsit.smallspring.core.io.Resource;
 import org.barsit.smallspring.core.io.ResourceLoader;
@@ -62,9 +64,23 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader{
 //定义bean
             BeanDefinition beanDefinition = new BeanDefinition(aClass);
 //            填充属性
+            for(int j= 0 ;j < bean.getChildNodes().getLength();j++){
+                if(!(bean.getChildNodes().item(j) instanceof Element)) continue;
+                if(!"property".equals(bean.getChildNodes().item(j).getNodeName())) continue;
+
+                Element property = (Element)bean.getChildNodes().item(j);
+                String attrName = property.getAttribute("name");
+                String attrValue = property.getAttribute("value");
+                String attrRef = property.getAttribute("ref");
+
+                Object value= StrUtil.isNotEmpty(attrRef)?new BeanReference(attrRef): attrValue;
+                PropertyValue propertyValue = new PropertyValue(attrName, value);
+                beanDefinition.getPropertyValues().addPropertyValue(propertyValue);
+            }
 
         }
 //        注册Bean信息
+        if(getRegistry())
     }
 
     @Override

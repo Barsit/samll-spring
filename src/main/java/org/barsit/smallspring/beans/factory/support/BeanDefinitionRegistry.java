@@ -1,5 +1,6 @@
 package org.barsit.smallspring.beans.factory.support;
 
+import org.barsit.smallspring.beans.BeansException;
 import org.barsit.smallspring.beans.factory.factory.BeanDefinition;
 
 /**
@@ -12,4 +13,7 @@ import org.barsit.smallspring.beans.factory.factory.BeanDefinition;
  */
 public interface BeanDefinitionRegistry {
     public void registerBeanDefinition(String name, BeanDefinition beanDefinition);
+    BeanDefinition getBeanDefinition(String beanName) throws BeansException;
+    boolean containsBeanDefinition(String beanName);
+    String[] getBeanDefinitionNames();
 }
