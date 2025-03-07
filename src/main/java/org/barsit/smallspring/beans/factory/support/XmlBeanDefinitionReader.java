@@ -19,7 +19,7 @@ import java.io.InputStream;
 
 public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader{
 
-    protected XmlBeanDefinitionReader(BeanDefinitionRegistry registry) {
+    public XmlBeanDefinitionReader(BeanDefinitionRegistry registry) {
         super(registry);
     }
 
@@ -77,10 +77,13 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader{
                 PropertyValue propertyValue = new PropertyValue(attrName, value);
                 beanDefinition.getPropertyValues().addPropertyValue(propertyValue);
             }
-
-        }
 //        注册Bean信息
-        if(getRegistry())
+            if(getRegistry().containsBeanDefinition(beanName)){
+                throw new BeansException("Duplicated beanName :["+beanName+"] is not allowed");
+            }
+            getRegistry().registerBeanDefinition(beanName,beanDefinition);
+        }
+
     }
 
     @Override

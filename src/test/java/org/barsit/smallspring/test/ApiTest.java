@@ -1,16 +1,24 @@
 package org.barsit.smallspring.test;
 
 
+import cn.hutool.core.io.IoUtil;
 import org.barsit.smallspring.beans.factory.BeanFactory;
 import org.barsit.smallspring.beans.factory.PropertyValue;
 import org.barsit.smallspring.beans.factory.PropertyValues;
 import org.barsit.smallspring.beans.factory.factory.BeanDefinition;
 import org.barsit.smallspring.beans.factory.factory.BeanReference;
 import org.barsit.smallspring.beans.factory.support.DefaultListableBeanFactory;
+import org.barsit.smallspring.beans.factory.support.XmlBeanDefinitionReader;
+import org.barsit.smallspring.core.io.DefaultResourceLoader;
+import org.barsit.smallspring.core.io.Resource;
+import org.barsit.smallspring.core.io.ResourceLoader;
 import org.barsit.smallspring.test.bean.UserDao;
 import org.barsit.smallspring.test.bean.UserService;
+import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
@@ -94,8 +102,51 @@ public class ApiTest {
 //        获取
         UserService userService =(UserService) beanFactory.getBean("userService");
         userService.queryUserInfo();
+    }
+
+//    加载资源
+//    获取流
+//    转换
+//    试用
+    private DefaultResourceLoader resourceLoader;
+    @Before
+    public void init(){
+        resourceLoader = new DefaultResourceLoader();
+    }
+
+    @Test
+    public void test_class_path_resource() throws IOException {
+        Resource resource = resourceLoader.getResource("classpath:important.properties");
+        InputStream inputStream = resource.getInputStream();
+        String s = IoUtil.readUtf8(inputStream);
+        System.out.println(s);
+    }
+    @Test
+    public void test_file_resource() throws IOException {
+        Resource resource = resourceLoader.getResource("D:\\learn\\samll-spring\\src\\test\\resources\\important.properties");
+        InputStream inputStream = resource.getInputStream();
+        String s = IoUtil.readUtf8(inputStream);
+        System.out.println(s);
+    }
+    @Test
+    public void test_url_resource() throws IOException {
+        Resource resource = resourceLoader.getResource("https://github.com/fuzhengwei/small-spring/important.properties");
+        InputStream inputStream = resource.getInputStream();
+        String s = IoUtil.readUtf8(inputStream);
+        System.out.println(s);
+    }
+
+    @Test
+    public void teat_xml(){
+        // 1.初始化 BeanFactory
+        DefaultListableBeanFactory factory = new DefaultListableBeanFactory();
+        // 2. 读取配置文件&注册Bean
+        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(factory);
+        reader.loadBeanDefinitions("classpath:spring.xml");
+        // 3. 获取Bean对象调用方法
+        UserService userService = factory.getBean("userService", UserService.class);
+        userService.queryUserInfo();
 
 
     }
-
 }
