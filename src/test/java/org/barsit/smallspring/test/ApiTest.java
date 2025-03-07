@@ -2,16 +2,14 @@ package org.barsit.smallspring.test;
 
 
 import cn.hutool.core.io.IoUtil;
-import org.barsit.smallspring.beans.factory.BeanFactory;
 import org.barsit.smallspring.beans.factory.PropertyValue;
 import org.barsit.smallspring.beans.factory.PropertyValues;
 import org.barsit.smallspring.beans.factory.factory.BeanDefinition;
 import org.barsit.smallspring.beans.factory.factory.BeanReference;
 import org.barsit.smallspring.beans.factory.support.DefaultListableBeanFactory;
-import org.barsit.smallspring.beans.factory.support.XmlBeanDefinitionReader;
+import org.barsit.smallspring.beans.factory.xml.XmlBeanDefinitionReader;
 import org.barsit.smallspring.core.io.DefaultResourceLoader;
 import org.barsit.smallspring.core.io.Resource;
-import org.barsit.smallspring.core.io.ResourceLoader;
 import org.barsit.smallspring.test.bean.UserDao;
 import org.barsit.smallspring.test.bean.UserService;
 import org.junit.Before;

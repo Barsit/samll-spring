@@ -1,4 +1,4 @@
-package org.barsit.smallspring.beans.factory.support;
+package org.barsit.smallspring.beans.factory.xml;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.XmlUtil;
@@ -6,6 +6,8 @@ import org.barsit.smallspring.beans.BeansException;
 import org.barsit.smallspring.beans.factory.PropertyValue;
 import org.barsit.smallspring.beans.factory.factory.BeanDefinition;
 import org.barsit.smallspring.beans.factory.factory.BeanReference;
+import org.barsit.smallspring.beans.factory.support.AbstractBeanDefinitionReader;
+import org.barsit.smallspring.beans.factory.support.BeanDefinitionRegistry;
 import org.barsit.smallspring.core.io.DefaultResourceLoader;
 import org.barsit.smallspring.core.io.Resource;
 import org.barsit.smallspring.core.io.ResourceLoader;
@@ -17,7 +19,7 @@ import org.w3c.dom.NodeList;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader{
+public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
     public XmlBeanDefinitionReader(BeanDefinitionRegistry registry) {
         super(registry);
