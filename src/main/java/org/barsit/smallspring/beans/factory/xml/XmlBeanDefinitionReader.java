@@ -43,39 +43,39 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
     private void doLoadInputStream(InputStream stream) throws ClassNotFoundException {
 //        解析XMl
         Document document = XmlUtil.readXML(stream);
-        Element root = document.getDocumentElement();
-        NodeList childNodes = root.getChildNodes();
-
-        for (int i = 0; i < childNodes.getLength();i++ ){
-//            判断元素
+        Element element = document.getDocumentElement();
+        NodeList childNodes = element.getChildNodes();
+        for(int i = 0 ; i < childNodes.getLength(); i++ ){
+            //            判断元素
             if(!(childNodes.item(i) instanceof Element)) continue;
-//            判断对象
-            if(!("bean".equals(childNodes.item(i).getNodeName()))) continue;
-            Element bean = (Element)childNodes.item(i);
+            //            判断对象
+            if(!"bean".equals(childNodes.item(i).getNodeName())) continue;
 
-            String id = bean.getAttribute("id");
-            String name = bean.getAttribute("name");
-            String className = bean.getAttribute("class");
+//            解析标签
+           Element bean = (Element)childNodes.item(i);
+           String name = bean.getAttribute("name");
+           String id = bean.getAttribute("id");
+           String clazz = bean.getAttribute("class");
 
-            Class<?> aClass = Class.forName(className);
+//           id 优先级大于name
             String beanName = StrUtil.isNotEmpty(id)?id:name;
-
             if(StrUtil.isEmpty(beanName)){
-                beanName = StrUtil.lowerFirst(aClass.getSimpleName());
+                beanName = StrUtil.lowerFirst(clazz);
             }
-//定义bean
+            //定义beanDefinition
+            Class<?> aClass = Class.forName(clazz);
             BeanDefinition beanDefinition = new BeanDefinition(aClass);
-//            填充属性
-            for(int j= 0 ;j < bean.getChildNodes().getLength();j++){
+            for(int j = 0; j < bean.getChildNodes().getLength();j++){
                 if(!(bean.getChildNodes().item(j) instanceof Element)) continue;
-                if(!"property".equals(bean.getChildNodes().item(j).getNodeName())) continue;
+                if(!("property".equals(bean.getChildNodes().item(j).getNodeName()))) continue;
 
-                Element property = (Element)bean.getChildNodes().item(j);
+//                解析依赖
+                Element property =(Element)bean.getChildNodes().item(j);
                 String attrName = property.getAttribute("name");
                 String attrValue = property.getAttribute("value");
                 String attrRef = property.getAttribute("ref");
-
-                Object value= StrUtil.isNotEmpty(attrRef)?new BeanReference(attrRef): attrValue;
+//            填充属性
+                Object value = StrUtil.isNotEmpty(attrRef)?new BeanReference(attrRef):attrValue;
                 PropertyValue propertyValue = new PropertyValue(attrName, value);
                 beanDefinition.getPropertyValues().addPropertyValue(propertyValue);
             }
