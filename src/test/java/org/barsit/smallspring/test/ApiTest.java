@@ -2,6 +2,7 @@ package org.barsit.smallspring.test;
 
 
 import cn.hutool.core.io.IoUtil;
+import org.barsit.smallspring.beans.context.support.ClassPathXmlApplicationContext;
 import org.barsit.smallspring.beans.factory.PropertyValue;
 import org.barsit.smallspring.beans.factory.PropertyValues;
 import org.barsit.smallspring.beans.factory.factory.BeanDefinition;
@@ -12,6 +13,8 @@ import org.barsit.smallspring.core.io.DefaultResourceLoader;
 import org.barsit.smallspring.core.io.Resource;
 import org.barsit.smallspring.test.bean.UserDao;
 import org.barsit.smallspring.test.bean.UserService;
+import org.barsit.smallspring.test.common.MyBeanFactoryPostProcessor;
+import org.barsit.smallspring.test.common.MyBeanPostProcessor;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -144,7 +147,35 @@ public class ApiTest {
         // 3. 获取Bean对象调用方法
         UserService userService = factory.getBean("userService", UserService.class);
         userService.queryUserInfo();
+    }
 
+    @Test
+    public void teat_BeanFactoryPostProcessorAndBeanPostProcessor(){
+        // 1.初始化 BeanFactory
+        DefaultListableBeanFactory factory = new DefaultListableBeanFactory();
+        // 2. 读取配置文件&注册Bean
+        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(factory);
+        reader.loadBeanDefinitions("classpath:spring.xml");
 
+//        修改信息
+        MyBeanFactoryPostProcessor myBeanFactoryPostProcessor = new MyBeanFactoryPostProcessor();
+        myBeanFactoryPostProcessor.postProcessBeanFactory(factory);
+
+        MyBeanPostProcessor myBeanPostProcessor = new MyBeanPostProcessor();
+        factory.addBeanPostProcessor(myBeanPostProcessor);
+
+        // 3. 获取Bean对象调用方法
+        UserService userService = factory.getBean("userService", UserService.class);
+        userService.queryUserInfo();
+    }
+
+    @Test
+    public void teat_BeanFactoryPostProcessorAndBeanPostProcessorByXML(){
+        // 1.初始化 BeanFactory
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring2.xml");
+
+        // 3. 获取Bean对象调用方法
+        UserService userService = applicationContext.getBean("userService", UserService.class);
+        userService.queryUserInfo();
     }
 }

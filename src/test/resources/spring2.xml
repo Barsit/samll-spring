@@ -7,4 +7,7 @@
             <property name="uid" value="10001"/>
             <property name="userDao" ref="userDao"/>
     </bean>
+
+    <bean class="org.barsit.smallspring.test.common.MyBeanFactoryPostProcessor"/>
+    <bean class="org.barsit.smallspring.test.common.MyBeanPostProcessor"/>
 </beans>

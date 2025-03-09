@@ -1,5 +1,6 @@
 package org.barsit.smallspring.beans.factory.support;
 
+import org.barsit.smallspring.beans.BeansException;
 import org.barsit.smallspring.core.io.DefaultResourceLoader;
 import org.barsit.smallspring.core.io.ResourceLoader;
 
@@ -25,4 +26,6 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
     public ResourceLoader getResourceLoader() {
         return resourceLoader;
     }
+
+    public abstract void loadBeanDefinitions(String... location) throws BeansException;
 }

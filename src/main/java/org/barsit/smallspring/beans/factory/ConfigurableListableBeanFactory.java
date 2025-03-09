@@ -1,6 +1,8 @@
 package org.barsit.smallspring.beans.factory;
 
+import org.barsit.smallspring.beans.BeansException;
 import org.barsit.smallspring.beans.factory.factory.AutowireCapableBeanFactory;
+import org.barsit.smallspring.beans.factory.factory.BeanDefinition;
 import org.barsit.smallspring.beans.factory.factory.ConfigurableBeanFactory;
 
 /**
@@ -12,4 +14,7 @@ import org.barsit.smallspring.beans.factory.factory.ConfigurableBeanFactory;
  * @version:1.0
  */
 public interface ConfigurableListableBeanFactory extends ListableBeanFactory, AutowireCapableBeanFactory, ConfigurableBeanFactory {
+    void preInstantiateSingletons() throws BeansException;
+    BeanDefinition getBeanDefinition(String beanName) throws BeansException;
+
 }
