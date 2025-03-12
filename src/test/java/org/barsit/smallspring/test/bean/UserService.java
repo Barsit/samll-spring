@@ -1,5 +1,9 @@
 package org.barsit.smallspring.test.bean;
 
+import org.barsit.smallspring.beans.BeansException;
+import org.barsit.smallspring.beans.factory.DisposableBean;
+import org.barsit.smallspring.beans.factory.InitializingBean;
+
 /**
  * @description:
  * @projectName:samll-spring
@@ -8,7 +12,7 @@ package org.barsit.smallspring.test.bean;
  * @createTime:2025/2/26 20:17
  * @version:1.0
  */
-public class UserService {
+public class UserService implements InitializingBean, DisposableBean {
     private String name;
     private Integer age;
     private String company;
@@ -71,5 +75,15 @@ public class UserService {
 
     public void setCompany(String company) {
         this.company = company;
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        System.out.println("执行：UserService.destroy");
+    }
+
+    @Override
+    public void afterPropertiesSet() throws BeansException {
+        System.out.println("执行：UserService.afterPropertiesSet");
     }
 }

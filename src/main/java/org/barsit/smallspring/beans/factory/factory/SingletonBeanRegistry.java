@@ -10,5 +10,9 @@ package org.barsit.smallspring.beans.factory.factory;
  */
 public interface SingletonBeanRegistry {
     public Object getSingleton(String beanName);
+    /**
+     * 销毁单例对象
+     */
+    void destroySingletons();
 
 }

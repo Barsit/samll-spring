@@ -178,4 +178,15 @@ public class ApiTest {
         UserService userService = applicationContext.getBean("userService", UserService.class);
         userService.queryUserInfo();
     }
+
+    @Test
+    public void teat_InitAndDestroyMethod(){
+        // 1.初始化 BeanFactory
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring2.xml");
+        applicationContext.registerShutdownHook();
+
+        // 3. 获取Bean对象调用方法
+        UserService userService = applicationContext.getBean("userService", UserService.class);
+        userService.queryUserInfo();
+    }
 }
