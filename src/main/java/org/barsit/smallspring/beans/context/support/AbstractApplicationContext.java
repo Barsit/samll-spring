@@ -82,7 +82,10 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
     @Override
     public void registerShutdownHook() {
 //        注册钩子方法
+//       this::close 语法糖 ：方法引用
+//        new  Thread(System.out::println);
         Runtime.getRuntime().addShutdownHook(new Thread(this::close));
+
     }
 
     @Override
