@@ -20,7 +20,7 @@ public class UserService implements Aware, BeanNameAware, BeanClassLoaderAware, 
     private String location;
     private String uid;
 
-    private UserDao userDao;
+    private IUserDao userDao;
 
 
     private ApplicationContext applicationContext;
@@ -34,7 +34,7 @@ public class UserService implements Aware, BeanNameAware, BeanClassLoaderAware, 
     }
 
     public void queryUserInfo() {
-        System.out.println("查询用户信息：" + userDao.queryUserName(uid) + "company:" +this.company +"   location: " +this.location) ;
+//        System.out.println("查询用户信息：" + userDao.queryUserName(uid) + "company:" +this.company +"   location: " +this.location) ;
 //        System.out.println(name);
     }
 
@@ -66,7 +66,7 @@ public class UserService implements Aware, BeanNameAware, BeanClassLoaderAware, 
         this.uid = uid;
     }
 
-    public void setUserDao(UserDao userDao) {
+    public void setUserDao(IUserDao userDao) {
         this.userDao = userDao;
     }
 

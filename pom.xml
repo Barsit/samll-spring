@@ -25,6 +25,13 @@
            <artifactId>hutool-all</artifactId>
            <version>5.5.0</version>
        </dependency>
+       <!-- https://mvnrepository.com/artifact/org.openjdk.jol/jol-cli -->
+<!--       JOL（Java Object Layout）是 OpenJDK 提供的 Java 内存布局分析工具，-->
+       <dependency>
+           <groupId>org.openjdk.jol</groupId>
+           <artifactId>jol-cli</artifactId>
+           <version>0.14</version>
+       </dependency>
    </dependencies>
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
