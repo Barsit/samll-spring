@@ -3,10 +3,7 @@ package org.barsit.smallspring.beans.factory.support;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import org.barsit.smallspring.beans.BeansException;
-import org.barsit.smallspring.beans.factory.DisposableBean;
-import org.barsit.smallspring.beans.factory.InitializingBean;
-import org.barsit.smallspring.beans.factory.PropertyValue;
-import org.barsit.smallspring.beans.factory.PropertyValues;
+import org.barsit.smallspring.beans.factory.*;
 import org.barsit.smallspring.beans.factory.factory.BeanDefinition;
 import org.barsit.smallspring.beans.factory.factory.BeanPostProcessor;
 import org.barsit.smallspring.beans.factory.factory.BeanReference;
@@ -98,6 +95,19 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         this.instantiationStrategy = instantiationStrategy;
     }
     private Object initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) {
+        // invokeAwareMethods
+        if (bean instanceof Aware) {
+            if (bean instanceof BeanFactoryAware) {
+                ((BeanFactoryAware) bean).setBeanFactory(this);
+            }
+            if (bean instanceof BeanClassLoaderAware){
+                ((BeanClassLoaderAware) bean).setBeanClassLoader(getBeanClassLoader());
+            }
+            if (bean instanceof BeanNameAware) {
+                ((BeanNameAware) bean).setBeanName(beanName);
+            }
+        }
+
         // 1. 执行 BeanPostProcessor Before 处理
         Object wrappedBean = applyBeanPostProcessorsBeforeInitialization(bean, beanName);
 

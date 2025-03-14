@@ -189,4 +189,18 @@ public class ApiTest {
         UserService userService = applicationContext.getBean("userService", UserService.class);
         userService.queryUserInfo();
     }
+    @Test
+    public void teat_Aware(){
+        // 1.初始化 BeanFactory
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring2.xml");
+        applicationContext.registerShutdownHook();
+
+        // 3. 获取Bean对象调用方法
+        UserService userService = applicationContext.getBean("userService", UserService.class);
+//       为了不影响前面的测试 重载了该方法 参数x无用
+        String result = userService.queryUserInfo(1);
+        System.out.println("测试结果：" + result);
+        System.out.println("ApplicationContextAware："+userService.getApplicationContext());
+        System.out.println("BeanFactoryAware："+userService.getBeanFactory());
+    }
 }

@@ -1,8 +1,9 @@
 package org.barsit.smallspring.test.bean;
 
 import org.barsit.smallspring.beans.BeansException;
-import org.barsit.smallspring.beans.factory.DisposableBean;
-import org.barsit.smallspring.beans.factory.InitializingBean;
+import org.barsit.smallspring.beans.context.ApplicationContext;
+import org.barsit.smallspring.beans.context.ApplicationContextAware;
+import org.barsit.smallspring.beans.factory.*;
 
 /**
  * @description:
@@ -12,7 +13,7 @@ import org.barsit.smallspring.beans.factory.InitializingBean;
  * @createTime:2025/2/26 20:17
  * @version:1.0
  */
-public class UserService implements InitializingBean, DisposableBean {
+public class UserService implements Aware, BeanNameAware, BeanClassLoaderAware, ApplicationContextAware, BeanFactoryAware {
     private String name;
     private Integer age;
     private String company;
@@ -20,6 +21,10 @@ public class UserService implements InitializingBean, DisposableBean {
     private String uid;
 
     private UserDao userDao;
+
+
+    private ApplicationContext applicationContext;
+    private BeanFactory beanFactory;
 
     public UserService() {
     }
@@ -31,6 +36,10 @@ public class UserService implements InitializingBean, DisposableBean {
     public void queryUserInfo() {
         System.out.println("查询用户信息：" + userDao.queryUserName(uid) + "company:" +this.company +"   location: " +this.location) ;
 //        System.out.println(name);
+    }
+
+    public String queryUserInfo(int x) {
+        return userDao.queryUserName(uid) + "," + company + "," + location;
     }
 
     @Override
@@ -77,13 +86,41 @@ public class UserService implements InitializingBean, DisposableBean {
         this.company = company;
     }
 
+//    @Override
+//    public void destroy() throws Exception {
+//        System.out.println("执行：UserService.destroy");
+//    }
+//
+//    @Override
+//    public void afterPropertiesSet() throws BeansException {
+//        System.out.println("执行：UserService.afterPropertiesSet");
+//    }
+
     @Override
-    public void destroy() throws Exception {
-        System.out.println("执行：UserService.destroy");
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+            this.applicationContext = applicationContext;
     }
 
     @Override
-    public void afterPropertiesSet() throws BeansException {
-        System.out.println("执行：UserService.afterPropertiesSet");
+    public void setBeanClassLoader(ClassLoader classLoader) {
+        System.out.println("classLoader : "  + classLoader);
+    }
+
+    @Override
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+         this.beanFactory  = beanFactory;
+    }
+
+    @Override
+    public void setBeanName(String name) {
+        System.out.println("Bean Name is：" + name);
+    }
+
+    public ApplicationContext getApplicationContext() {
+        return applicationContext;
+    }
+
+    public BeanFactory getBeanFactory() {
+        return beanFactory;
     }
 }
