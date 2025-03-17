@@ -223,7 +223,7 @@ public class ApiTest {
     @Test
     public void test_factory_bean() {
         // 1.初始化 BeanFactory
-        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring.xml");
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring3.xml");
         applicationContext.registerShutdownHook();
 
         // 2. 调用代理方法

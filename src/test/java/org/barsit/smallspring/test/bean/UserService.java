@@ -13,12 +13,12 @@ import org.barsit.smallspring.beans.factory.*;
  * @createTime:2025/2/26 20:17
  * @version:1.0
  */
-public class UserService implements Aware, BeanNameAware, BeanClassLoaderAware, ApplicationContextAware, BeanFactoryAware {
+public class UserService implements BeanNameAware, BeanClassLoaderAware, ApplicationContextAware, BeanFactoryAware {
     private String name;
     private Integer age;
     private String company;
     private String location;
-    private String uid;
+    private String uId;
 
     private IUserDao userDao;
 
@@ -39,15 +39,14 @@ public class UserService implements Aware, BeanNameAware, BeanClassLoaderAware, 
     }
 
     public String queryUserInfo(int x) {
-        return userDao.queryUserName(uid) + "," + company + "," + location;
+        return userDao.queryUserName(uId) + "," + company + "," + location;
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("");
-        sb.append(".....").append(name);
-        return sb.toString();
-    }
+//    public String toString() {
+//        final StringBuilder sb = new StringBuilder("");
+//        sb.append(".....").append(name);
+//        return sb.toString();
+//    }
 
     public UserService(String name, Integer age) {
         this.name = name;
@@ -63,7 +62,7 @@ public class UserService implements Aware, BeanNameAware, BeanClassLoaderAware, 
     }
 
     public void setUid(String uid) {
-        this.uid = uid;
+        this.uId = uid;
     }
 
     public void setUserDao(IUserDao userDao) {
