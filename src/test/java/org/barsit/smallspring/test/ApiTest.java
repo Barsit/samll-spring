@@ -2,6 +2,7 @@ package org.barsit.smallspring.test;
 
 
 import cn.hutool.core.io.IoUtil;
+import org.barsit.smallspring.beans.context.event.ContextClosedEvent;
 import org.barsit.smallspring.beans.context.support.ClassPathXmlApplicationContext;
 import org.barsit.smallspring.beans.factory.PropertyValue;
 import org.barsit.smallspring.beans.factory.PropertyValues;
@@ -15,6 +16,7 @@ import org.barsit.smallspring.test.bean.UserDao;
 import org.barsit.smallspring.test.bean.UserService;
 import org.barsit.smallspring.test.common.MyBeanFactoryPostProcessor;
 import org.barsit.smallspring.test.common.MyBeanPostProcessor;
+import org.barsit.smallspring.test.event.CustomEvent;
 import org.junit.Before;
 import org.junit.Test;
 import org.openjdk.jol.info.ClassLayout;
@@ -229,5 +231,12 @@ public class ApiTest {
         // 2. 调用代理方法
         UserService userService = applicationContext.getBean("userService", UserService.class);
         System.out.println("测试结果：" + userService.queryUserInfo(1));
+    }
+    @Test
+    public void test_event() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring4.xml");
+        applicationContext.publishEvent(new CustomEvent(applicationContext, 1019129009086763L, "成功了！"));
+
+        applicationContext.registerShutdownHook();
     }
 }

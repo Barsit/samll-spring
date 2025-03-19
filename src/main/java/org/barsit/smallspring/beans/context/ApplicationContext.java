@@ -11,5 +11,5 @@ import org.barsit.smallspring.beans.factory.ListableBeanFactory;
  * @version:1.0
  */
 //接口与接口 也是继承 不是实现
-public interface ApplicationContext  extends ListableBeanFactory {
+public interface ApplicationContext  extends ListableBeanFactory,ApplicationEventPublisher {
 }
