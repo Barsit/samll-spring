@@ -235,6 +235,11 @@ public class ApiTest {
     @Test
     public void test_event() {
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring4.xml");
+//        applicationContext 作为生产者 发布事件
+//        applicationEventMulticaster  作为广播器 广播事件给监听者  multicastEvent
+//         ApplicationListener 作为消费者 响应事件
+//        applicationContext.publishEven(事件源发出事件)  -> EventMulticaster.multicastEvent(event)（事件被广播器广播） ->  listener.onApplicationEvent(event)（监听器收到动静做出响应）
+
         applicationContext.publishEvent(new CustomEvent(applicationContext, 1019129009086763L, "成功了！"));
 
         applicationContext.registerShutdownHook();
