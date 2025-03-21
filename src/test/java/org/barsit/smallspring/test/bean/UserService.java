@@ -5,6 +5,8 @@ import org.barsit.smallspring.beans.context.ApplicationContext;
 import org.barsit.smallspring.beans.context.ApplicationContextAware;
 import org.barsit.smallspring.beans.factory.*;
 
+import java.util.Random;
+
 /**
  * @description:
  * @projectName:samll-spring
@@ -13,7 +15,7 @@ import org.barsit.smallspring.beans.factory.*;
  * @createTime:2025/2/26 20:17
  * @version:1.0
  */
-public class UserService implements BeanNameAware, BeanClassLoaderAware, ApplicationContextAware, BeanFactoryAware {
+public class UserService implements BeanNameAware, BeanClassLoaderAware, ApplicationContextAware, BeanFactoryAware,IUserService {
     private String name;
     private Integer age;
     private String company;
@@ -33,9 +35,18 @@ public class UserService implements BeanNameAware, BeanClassLoaderAware, Applica
         this.name = name;
     }
 
-    public void queryUserInfo() {
-//        System.out.println("查询用户信息：" + userDao.queryUserName(uid) + "company:" +this.company +"   location: " +this.location) ;
-//        System.out.println(name);
+    public String queryUserInfo() {
+        try {
+            Thread.sleep(new Random(1).nextInt(100));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return "小傅哥，100001，深圳";
+    }
+
+    @Override
+    public String register(String userName) {
+        return null;
     }
 
     public String queryUserInfo(int x) {

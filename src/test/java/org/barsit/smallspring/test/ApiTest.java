@@ -2,6 +2,11 @@ package org.barsit.smallspring.test;
 
 
 import cn.hutool.core.io.IoUtil;
+import org.barsit.smallspring.aop.AdvisedSupport;
+import org.barsit.smallspring.aop.TargetSource;
+import org.barsit.smallspring.aop.aspectj.AspectJExpressionPointcut;
+import org.barsit.smallspring.aop.framework.Cglib2AopProxy;
+import org.barsit.smallspring.aop.framework.JdkDynamicAopProxy;
 import org.barsit.smallspring.beans.context.event.ContextClosedEvent;
 import org.barsit.smallspring.beans.context.support.ClassPathXmlApplicationContext;
 import org.barsit.smallspring.beans.factory.PropertyValue;
@@ -12,8 +17,10 @@ import org.barsit.smallspring.beans.factory.support.DefaultListableBeanFactory;
 import org.barsit.smallspring.beans.factory.xml.XmlBeanDefinitionReader;
 import org.barsit.smallspring.core.io.DefaultResourceLoader;
 import org.barsit.smallspring.core.io.Resource;
+import org.barsit.smallspring.test.bean.IUserService;
 import org.barsit.smallspring.test.bean.UserDao;
 import org.barsit.smallspring.test.bean.UserService;
+import org.barsit.smallspring.test.bean.UserServiceInterceptor;
 import org.barsit.smallspring.test.common.MyBeanFactoryPostProcessor;
 import org.barsit.smallspring.test.common.MyBeanPostProcessor;
 import org.barsit.smallspring.test.event.CustomEvent;
@@ -25,6 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * @description:
@@ -243,5 +251,38 @@ public class ApiTest {
         applicationContext.publishEvent(new CustomEvent(applicationContext, 1019129009086763L, "成功了！"));
 
         applicationContext.registerShutdownHook();
+    }
+
+    @Test
+    public void test_aop() throws NoSuchMethodException {
+        AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut("execution(* org.barsit.smallspring.test.bean.UserService.*(..))");
+        Class<UserService> clazz = UserService.class;
+        Method method = clazz.getDeclaredMethod("queryUserInfo");
+
+        System.out.println(pointcut.matches(clazz));
+        System.out.println(pointcut.matches(method, clazz));
+
+        // true、true
+    }
+    @Test
+    public void test_dynamic() {
+        // 目标对象
+        IUserService userService = new UserService();
+
+        // 组装代理信息
+        AdvisedSupport advisedSupport = new AdvisedSupport();
+        advisedSupport.setTargetSource(new TargetSource(userService));
+        advisedSupport.setMethodInterceptor(new UserServiceInterceptor());
+        advisedSupport.setMethodMatcher(new AspectJExpressionPointcut("execution(* org.barsit.smallspring.test.bean.IUserService.*(..))"));
+
+        // 代理对象(JdkDynamicAopProxy)
+        IUserService proxy_jdk = (IUserService) new JdkDynamicAopProxy(advisedSupport).getProxy();
+        // 测试调用
+        System.out.println("测试结果：" + proxy_jdk.queryUserInfo());
+
+        // 代理对象(Cglib2AopProxy)
+        IUserService proxy_cglib = (IUserService) new Cglib2AopProxy(advisedSupport).getProxy();
+        // 测试调用
+        System.out.println("测试结果：" + proxy_cglib.register("花花"));
     }
 }
