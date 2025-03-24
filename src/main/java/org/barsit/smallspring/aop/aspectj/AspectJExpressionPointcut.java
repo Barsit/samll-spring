@@ -15,12 +15,15 @@ public class AspectJExpressionPointcut implements Pointcut, ClassFilter, MethodM
     private static final Set<PointcutPrimitive> SUPPORTED_PRIMITIVES = new HashSet<PointcutPrimitive>();
 
     static {
+//        目前只支持EXECUTION
         SUPPORTED_PRIMITIVES.add(PointcutPrimitive.EXECUTION);
     }
 
     private final PointcutExpression pointcutExpression;
 
     public AspectJExpressionPointcut(String expression) {
+//        该方法的作用是创建一个支持指定切点原语（primitives）并使用指定类加载器进行解析的 PointcutParser 实例。
+//        切点原语（例如 execution、call 等）
         PointcutParser pointcutParser = PointcutParser.getPointcutParserSupportingSpecifiedPrimitivesAndUsingSpecifiedClassLoaderForResolution(
                 SUPPORTED_PRIMITIVES, this.getClass().getClassLoader());
         pointcutExpression = pointcutParser.parsePointcutExpression(expression);

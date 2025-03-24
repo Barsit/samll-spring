@@ -3,7 +3,6 @@ package org.barsit.smallspring.aop.framework;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
-import org.aopalliance.intercept.MethodInvocation;
 import org.barsit.smallspring.aop.AdvisedSupport;
 
 import java.lang.reflect.Method;
